@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CR7 – L'histoire de Cristiano Ronaldo</title>
+<meta name="description" content="Le parcours de Cristiano Ronaldo, de Madère à la sélection portugaise.">
+<style>
+  :root{
+    --green:#006600;
+    --green-dark:#003d00;
+    --red:#da291c;
+    --red-dark:#8f1a12;
+    --gold:#ffe000;
+    --bg:#0b0f0b;
+    --card:#141a14;
+    --text:#f4f4f0;
+    --muted:#b9c2b9;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{font-family:'Segoe UI',system-ui,-apple-system,Roboto,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;overflow-x:hidden}
+  a{color:inherit;text-decoration:none}
+
+  /* NAV */
+  nav{position:fixed;top:0;left:0;right:0;z-index:50;display:flex;justify-content:space-between;align-items:center;padding:12px 20px;background:rgba(0,40,0,.88);backdrop-filter:blur(8px);border-bottom:3px solid var(--red)}
+  nav .logo{font-weight:900;letter-spacing:2px;font-size:1.2rem}
+  nav .logo span{color:var(--gold)}
+  nav ul{display:flex;gap:18px;list-style:none}
+  nav a{font-size:.85rem;text-transform:uppercase;letter-spacing:1px;opacity:.85;transition:.25s}
+  nav a:hover{opacity:1;color:var(--gold)}
+  @media(max-width:700px){nav ul{display:none}}
+
+  /* HERO */
+  header.hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:100px 20px 60px;position:relative;
+    background:
+      radial-gradient(circle at 20% 20%,rgba(218,41,28,.45),transparent 50%),
+      radial-gradient(circle at 80% 80%,rgba(0,102,0,.6),transparent 55%),
+      linear-gradient(135deg,var(--green-dark),#050805 60%,var(--red-dark));}
+  .hero .number{font-size:clamp(7rem,28vw,18rem);font-weight:900;line-height:.9;color:transparent;-webkit-text-stroke:3px var(--gold);animation:float 4s ease-in-out infinite}
+  .hero h1{font-size:clamp(1.8rem,6vw,3.6rem);margin-top:10px;letter-spacing:3px;text-transform:uppercase}
+  .hero p{max-width:600px;color:var(--muted);margin:14px auto 28px}
+  .btn{display:inline-block;padding:14px 32px;border-radius:50px;background:linear-gradient(90deg,var(--red),var(--red-dark));font-weight:700;letter-spacing:1px;text-transform:uppercase;font-size:.85rem;border:2px solid var(--gold);transition:.3s}
+  .btn:hover{transform:translateY(-4px) scale(1.04);box-shadow:0 10px 30px rgba(218,41,28,.5)}
+  @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-14px)}}
+
+  /* SECTIONS */
+  section{padding:80px 20px;max-width:1000px;margin:auto}
+  h2.title{font-size:clamp(1.6rem,4vw,2.4rem);text-transform:uppercase;letter-spacing:2px;margin-bottom:8px}
+  h2.title::after{content:"";display:block;width:80px;height:5px;margin-top:10px;border-radius:3px;background:linear-gradient(90deg,var(--green) 50%,var(--red) 50%)}
+  .sub{color:var(--muted);margin-bottom:34px}
+
+  /* STATS */
+  .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:16px}
+  .stat{background:var(--card);border-radius:16px;padding:24px 14px;text-align:center;border-top:4px solid var(--green);transition:.3s}
+  .stat:nth-child(even){border-top-color:var(--red)}
+  .stat:hover{transform:translateY(-6px)}
+  .stat b{display:block;font-size:2.2rem;color:var(--gold)}
+  .stat span{font-size:.8rem;color:var(--muted);text-transform:uppercase;letter-spacing:1px}
+
+  /* ACCORDION TIMELINE */
+  .timeline{position:relative;padding-left:26px}
+  .timeline::before{content:"";position:absolute;left:6px;top:0;bottom:0;width:4px;border-radius:2px;background:linear-gradient(var(--green),var(--red))}
+  .item{background:var(--card);border-radius:16px;margin-bottom:18px;overflow:hidden;position:relative;border:1px solid #243024;transition:.3s}
+  .item::before{content:"";position:absolute;left:-26px;top:26px;width:16px;height:16px;border-radius:50%;background:var(--gold);border:3px solid var(--green)}
+  .item:hover{border-color:var(--red)}
+  .head{width:100%;display:flex;justify-content:space-between;align-items:center;gap:12px;background:none;border:none;color:inherit;font:inherit;padding:18px 20px;cursor:pointer;text-align:left}
+  .head .year{font-weight:900;color:var(--gold);font-size:1.1rem;min-width:100px}
+  .head .name{flex:1;font-weight:700;font-size:1.05rem}
+  .head .arrow{font-size:1.4rem;color:var(--red);transition:transform .4s}
+  .item.open .arrow{transform:rotate(180deg)}
+  .item.open{border-color:var(--green);box-shadow:0 8px 30px rgba(0,102,0,.35)}
+  .panel{display:grid;grid-template-rows:0fr;transition:grid-template-rows .5s ease}
+  .item.open .panel{grid-template-rows:1fr}
+  .panel > div{overflow:hidden}
+  .content{padding:0 20px 22px;display:grid;grid-template-columns:1fr;gap:16px;opacity:0;transform:translateY(-10px);transition:.5s .1s}
+  .item.open .content{opacity:1;transform:none}
+  @media(min-width:760px){.content{grid-template-columns:260px 1fr}}
+  .content p{color:#dfe5df}
+  .content ul{margin-top:10px;padding-left:18px;color:var(--muted)}
+
+  /* PHOTO SLOTS */
+  .photo{border-radius:12px;overflow:hidden;min-height:170px;position:relative;background:linear-gradient(135deg,var(--green),var(--red));display:flex;align-items:center;justify-content:center}
+  .photo img{width:100%;height:100%;object-fit:cover;display:block;position:absolute;inset:0;transition:transform .6s}
+  .photo:hover img{transform:scale(1.08)}
+  .photo .ph{font-size:3.2rem;font-weight:900;color:rgba(255,255,255,.85)}
+
+  /* TROPHIES */
+  .trophies{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:16px}
+  .trophy{background:var(--card);border-radius:16px;padding:22px;border-left:5px solid var(--red);transition:.3s}
+  .trophy:nth-child(even){border-left-color:var(--green)}
+  .trophy:hover{transform:translateX(6px);background:#1b241b}
+  .trophy h3{color:var(--gold);font-size:1.5rem}
+  .trophy p{color:var(--muted);font-size:.9rem}
+
+  /* REVEAL */
+  .reveal{opacity:0;transform:translateY(40px);transition:opacity .8s,transform .8s}
+  .reveal.show{opacity:1;transform:none}
+
+  footer{text-align:center;padding:40px 20px;color:var(--muted);font-size:.85rem;border-top:4px solid;border-image:linear-gradient(90deg,var(--green) 50%,var(--red) 50%) 1}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="#top" class="logo">CR<span>7</span></a>
+  <ul>
+    <li><a href="#chiffres">Chiffres</a></li>
+    <li><a href="#histoire">Histoire</a></li>
+    <li><a href="#palmares">Palmarès</a></li>
+  </ul>
+</nav>
+
+<header class="hero" id="top">
+  <div class="number">7</div>
+  <h1>Cristiano Ronaldo</h1>
+  <p>De Funchal à la scène mondiale : l'histoire d'un travailleur acharné devenu légende de la sélection portugaise.</p>
+  <a href="#histoire" class="btn">Découvrir son parcours</a>
+</header>
+
+<section id="chiffres" class="reveal">
+  <h2 class="title">En chiffres</h2>
+  <p class="sub">Quelques repères sur sa carrière.</p>
+  <div class="stats">
+    <div class="stat"><b data-count="5">0</b><span>Ballons d'Or</span></div>
+    <div class="stat"><b data-count="5">0</b><span>Ligues des champions</span></div>
+    <div class="stat"><b data-count="130" data-plus="1">0</b><span>Buts en sélection</span></div>
+    <div class="stat"><b data-count="220" data-plus="1">0</b><span>Sélections</span></div>
+  </div>
+</section>
+
+<section id="histoire" class="reveal">
+  <h2 class="title">Son histoire</h2>
+  <p class="sub">Clique sur chaque étape pour la déplier.</p>
+
+  <div class="timeline">
+
+    <div class="item open">
+      <button class="head"><span class="year">1985</span><span class="name">Naissance à Madère</span><span class="arrow">▾</span></button>
+      <div class="panel"><div><div class="content">
+        <div class="photo"><img src="images/madere.jpg" alt="Madère" onerror="this.remove()"><span class="ph">🇵🇹</span></div>
+        <div>
+          <p>Cristiano Ronaldo dos Santos Aveiro naît le 5 février 1985 à Funchal, sur l'île de Madère, dans une famille modeste. Il grandit en jouant au football dans la rue et rejoint très jeune le club local de l'Andorinha, puis le CD Nacional.</p>
+        </div>
+      </div></div></div>
+    </div>
+
+    <div class="item">
+      <button class="head"><span class="year">1997–2003</span><span class="name">Sporting CP : le début</span><span class="arrow">▾</span></button>
+      <div class="panel"><div><div class="content">
+        <div class="photo"><img src="images/sporting.jpg" alt="Sporting" onerror="this.remove()"><span class="ph">⚽</span></div>
+        <div>
+          <p>À 12 ans, il intègre le centre de formation du Sporting à Lisbonne, loin de sa famille. Il fait ses débuts en équipe première en 2002 et impressionne tellement qu'il attire l'attention des plus grands clubs européens.</p>
+        </div>
+      </div></div></div>
+    </div>
+
+    <div class="item">
+      <button class="head"><span class="year">2003–2009</span><span class="name">Manchester United</span><span class="arrow">▾</span></button>
+      <div class="panel"><div><div class="content">
+        <div class="photo"><img src="images/manchester.jpg" alt="Manchester United" onerror="this.remove()"><span class="ph">🔴</span></div>
+        <div>
+          <p>Sir Alex Ferguson le recrute à 18 ans. Il devient numéro 7 et se transforme en l'un des meilleurs joueurs du monde.</p>
+          <ul>
+            <li>3 titres de champion d'Angleterre</li>
+            <li>Ligue des champions 2008</li>
+            <li>Ballon d'Or 2008</li>
+          </ul>
+        </div>
+      </div></div></div>
+    </div>
+
+    <div class="item">
+      <button class="head"><span class="year">2009–2018</span><span class="name">Real Madrid : l'ère légendaire</span><span class="arrow">▾</span></button>
+      <div class="panel"><div><div class="content">
+        <div class="photo"><img src="images/real-madrid.jpg" alt="Real Madrid" onerror="this.remove()"><span class="ph">⚪</span></div>
+        <div>
+          <p>Neuf saisons, des records de buts en cascade et une domination européenne. Il devient le meilleur buteur de l'histoire du club.</p>
+          <ul>
+            <li>4 Ligues des champions (2014, 2016, 2017, 2018)</li>
+            <li>4 Ballons d'Or (2013, 2014, 2016, 2017)</li>
+            <li>Plus de 450 buts en moins de 450 matchs</li>
+          </ul>
+        </div>
+      </div></div></div>
+    </div>
+
+    <div class="item">
+      <button class="head"><span class="year">2018–2022</span><span class="name">Juventus puis retour à United</span><span class="arrow">▾</span></button>
+      <div class="panel"><div><div class="content">
+        <div class="photo"><img src="images/juventus.jpg" alt="Juventus" onerror="this.remove()"><span class="ph">⚫</span></div>
+        <div>
+          <p>Il découvre la Serie A avec la Juventus, remporte des titres nationaux et finit meilleur buteur du championnat. Il revient ensuite à Manchester United en 2021 avant de quitter le club en 2022.</p>
+        </div>
+      </div></div></div>
+    </div>
+
+    <div class="item">
+      <button class="head"><span class="year">2023–…</span><span class="name">Al Nassr, en Arabie saoudite</span><span class="arrow">▾</span></button>
+      <div class="panel"><div><div class="content">
+        <div class="photo"><img src="images/al-nassr.jpg" alt="Al Nassr" onerror="this.remove()"><span class="ph">🌍</span></div>
+        <div>
+          <p>Début 2023, il rejoint Al Nassr et ouvre la voie à l'arrivée de nombreuses stars en Arabie saoudite. Il continue d'empiler les buts bien après 35 ans.</p>
+        </div>
+      </div></div></div>
+    </div>
+
+    <div class="item">
+      <button class="head"><span class="year">2003–…</span><span class="name">Avec la sélection portugaise</span><span class="arrow">▾</span></button>
+      <div class="panel"><div><div class="content">
+        <div class="photo"><img src="images/portugal.jpg" alt="Portugal" onerror="this.remove()"><span class="ph">🇵🇹</span></div>
+        <div>
+          <p>Premier match en 2003. Capitaine et meilleur buteur de l'histoire du football international, il porte le maillot rouge et vert depuis plus de vingt ans.</p>
+          <ul>
+            <li>Finale de l'Euro 2004 (perdue face à la Grèce)</li>
+            <li><b>Euro 2016 : champion d'Europe</b> avec le Portugal</li>
+            <li>Ligue des nations 2019 et 2025</li>
+            <li>Buteur dans 5 Coupes du monde différentes</li>
+          </ul>
+        </div>
+      </div></div></div>
+    </div>
+
+  </div>
+</section>
+
+<section id="palmares" class="reveal">
+  <h2 class="title">Palmarès</h2>
+  <p class="sub">Les grandes récompenses de sa carrière.</p>
+  <div class="trophies">
+    <div class="trophy"><h3>5 × Ballon d'Or</h3><p>2008, 2013, 2014, 2016, 2017</p></div>
+    <div class="trophy"><h3>5 × Ligue des champions</h3><p>1 avec United, 4 avec le Real Madrid</p></div>
+    <div class="trophy"><h3>Euro 2016</h3><p>Premier grand titre du Portugal</p></div>
+    <div class="trophy"><h3>2 × Ligue des nations</h3><p>2019 et 2025</p></div>
+  </div>
+</section>
+
+<footer>
+  Site de fan, non officiel · Fait avec ❤ aux couleurs du Portugal 🇵🇹
+</footer>
+
+<script>
+  // Accordéons
+  document.querySelectorAll('.item .head').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const item = btn.parentElement;
+      item.classList.toggle('open');
+    });
+  });
+
+  // Apparition au scroll
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('show'); io.unobserve(e.target); } });
+  }, { threshold: .12 });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+  // Compteurs animés
+  const counter = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (!e.isIntersecting) return;
+      const el = e.target, end = +el.dataset.count, plus = el.dataset.plus;
+      let n = 0; const step = Math.max(1, Math.ceil(end / 60));
+      const t = setInterval(() => {
+        n += step;
+        if (n >= end) { n = end; clearInterval(t); }
+        el.textContent = n + (n === end && plus ? '+' : '');
+      }, 25);
+      counter.unobserve(el);
+    });
+  }, { threshold: .6 });
+  document.querySelectorAll('[data-count]').forEach(el => counter.observe(el));
+</script>
+</body>
+</html>
